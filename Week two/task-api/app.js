@@ -1,4 +1,6 @@
 import express from "express";
+import router from "./routes/task.route.js";
+
 
 const app = express();
 
@@ -18,5 +20,7 @@ app.get("/health", (req, res) => {
     status: "ok",
   });
 });
+
+app.use('/tasks', router);
 
 export default app;
