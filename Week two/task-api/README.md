@@ -4,11 +4,13 @@ A simple RESTful CRUD API built with **Node.js** and **Express.js** for managing
 
 This project was created as part of the **FlyRank Backend Internship – Week 2 Assignment A1**.
 
-The API stores tasks in memory (no database), supports full CRUD operations, and is documented using **Swagger UI**.
+The API stores tasks in memory (no database), supports full CRUD operations, includes task filtering and searching features, and is documented using **Swagger UI**.
 
 ---
 
 ## Features
+
+### Core Features
 
 - Create a task
 - Get all tasks
@@ -18,6 +20,38 @@ The API stores tasks in memory (no database), supports full CRUD operations, and
 - Input validation
 - Proper HTTP status codes
 - Swagger UI documentation
+
+### Extra Features
+
+- Filter tasks by completion status
+
+Example:
+
+```
+GET /tasks?done=true
+```
+
+Returns only completed tasks.
+
+- Search tasks by title
+
+Example:
+
+```
+GET /tasks?search=milk
+```
+
+Returns tasks whose title contains the search text.
+
+- Combine filters together
+
+Example:
+
+```
+GET /tasks?done=false&search=milk
+```
+
+Returns tasks matching both conditions.
 
 ---
 
@@ -72,13 +106,15 @@ http://localhost:3000/docs
 
 ## API Endpoints
 
-| Method | Endpoint   | Description       |
-| ------ | ---------- | ----------------- |
-| GET    | /tasks     | Get all tasks     |
-| GET    | /tasks/:id | Get a task by ID  |
-| POST   | /tasks     | Create a new task |
-| PUT    | /tasks/:id | Update a task     |
-| DELETE | /tasks/:id | Delete a task     |
+| Method | Endpoint | Description |
+| ------ | -------- | ----------- |
+| GET | /tasks | Get all tasks |
+| GET | /tasks/:id | Get a task by ID |
+| POST | /tasks | Create a new task |
+| PUT | /tasks/:id | Update a task |
+| DELETE | /tasks/:id | Delete a task |
+| GET | /tasks?done=true | Filter tasks by completion status |
+| GET | /tasks?search=word | Search tasks by title |
 
 ---
 
@@ -103,6 +139,28 @@ HTTP/1.1 201 Created
     "done": false
   }
 }
+```
+
+---
+
+## Filtering and Searching Examples
+
+### Filter completed tasks
+
+```bash
+curl -i "http://localhost:3000/tasks?done=true"
+```
+
+### Search tasks
+
+```bash
+curl -i "http://localhost:3000/tasks?search=milk"
+```
+
+### Apply multiple filters
+
+```bash
+curl -i "http://localhost:3000/tasks?done=false&search=milk"
 ```
 
 ---
@@ -142,5 +200,6 @@ Example:
 - Data is stored **in memory**.
 - Restarting the server resets all tasks.
 - No database is used in this assignment.
+- The search and filtering features are implemented using query parameters.
 
 ---
