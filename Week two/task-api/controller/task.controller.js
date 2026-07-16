@@ -2,15 +2,24 @@ import { tasks } from "../Data/tasks.js";
 
 export const getAllTaskController = (req, res) => {
   const query = req.query.done;
+  const searchQuery = req.query.search;
   if (typeof query !== 'undefined' && query !== 'true' && query !== 'false') {
     return res.status(400).json({
       error:'Enter valid query '
     })
   }
   let ans;
-  if (typeof query !== 'undefined') {
+  if (typeof query !== 'undefined'&& typeof searchQuery !=='undefined' ) {
+    ans = tasks.filter((el) => {
+      return String(el.done) === query && el.title.includes(searchQuery);
+    })
+  }else  if (typeof query !== 'undefined' ) {
     ans = tasks.filter((el) => {
       return String(el.done) === query;
+    })
+  } else  if (typeof searchQuery !== 'undefined' ) {
+    ans = tasks.filter((el) => {
+      return el.title.includes(searchQuery);
     })
   } else {
     ans = tasks;
