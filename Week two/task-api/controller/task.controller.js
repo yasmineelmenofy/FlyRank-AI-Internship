@@ -1,9 +1,23 @@
 import { tasks } from "../Data/tasks.js";
 
 export const getAllTaskController = (req, res) => {
+  const query = req.query.done;
+  if (typeof query !== 'undefined' && query !== 'true' && query !== 'false') {
+    return res.status(400).json({
+      error:'Enter valid query '
+    })
+  }
+  let ans;
+  if (typeof query !== 'undefined') {
+    ans = tasks.filter((el) => {
+      return String(el.done) === query;
+    })
+  } else {
+    ans = tasks;
+  }
   res.status(200).json({
     message: "tasks are fetched successfully",
-    data: tasks,
+    data: ans,
   });
 };
 

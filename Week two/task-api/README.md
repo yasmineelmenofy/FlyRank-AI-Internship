@@ -59,13 +59,13 @@ npm run dev
 The server will start on:
 
 ```
-http://localhost:5000
+http://localhost:3000
 ```
 
 Swagger UI:
 
 ```
-http://localhost:5000/docs
+http://localhost:3000/docs
 ```
 
 ---
@@ -85,7 +85,7 @@ http://localhost:5000/docs
 ## Example curl Request
 
 ```bash
-curl -i -X POST http://localhost:5000/tasks \
+curl -i -X POST http://localhost:3000/tasks \
 -H "Content-Type: application/json" \
 -d "{\"title\":\"Buy milk\"}"
 ```
@@ -112,7 +112,7 @@ HTTP/1.1 201 Created
 Swagger documentation is available at:
 
 ```
-http://localhost:5000/docs
+http://localhost:3000/docs
 ```
 
 ![alt text](<Screenshot 2026-07-16 124234.png>)

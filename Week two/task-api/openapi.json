@@ -20,6 +20,17 @@
     "/tasks": {
       "get": {
         "summary": "Return all tasks",
+        "parameters": [
+          {
+            "name": "done",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Filter tasks by completion status"
+          }
+        ],
         "responses": {
           "200": {
             "description": "tasks returned successfully"
