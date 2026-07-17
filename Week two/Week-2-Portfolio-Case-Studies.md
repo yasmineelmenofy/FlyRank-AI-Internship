@@ -52,8 +52,12 @@ I'm a Computer Engineering student interested in backend development with Node.j
 
 Thanks for taking the time to review my work.
 
-If you'd like to explore the implementation, review the source code, or share feedback, I'd be happy to hear from you. Feel free to get in touch or connect with me to discuss backend development and future opportunities.
+If you'd like to see how I approached this project, the GitHub repository is the best place to start.
+
+**GitHub:**
 https://github.com/yasmineelmenofy/FlyRank-AI-Internship/tree/main/Week%20two/task-api
+
+**LinkedIn:**
 https://www.linkedin.com/in/yasmine-ahmed-8a8170328/
 
 ---
@@ -62,8 +66,8 @@ https://www.linkedin.com/in/yasmine-ahmed-8a8170328/
 
 ## Before
 
-> Built a robust REST API using cutting-edge backend technologies with a scalable architecture.
+> Built a robust REST API using cutting-edge backend technologies.
 
 ## After
 
-> Built a REST API for managing tasks. I organized the project into separate modules, added search and filtering beyond the assignment requirements, and documented the API with Swagger because I wanted the project to be more than a basic CRUD implementation.
+> Built a REST API for managing tasks and organized it into separate modules because I wanted the project to stay easy to manage as it grew.
