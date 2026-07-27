@@ -92,9 +92,14 @@ export const createTaskController = (req, res) => {
 
 export const updateTaskController = (req, res) => {
   const Id = Number(req.params.id);
-  const result = tasks.find((el) => {
-    return el.id === Id;
-  });
+  const result = db
+    .prepare(
+      `
+    SELECT * FROM tasks
+    WHERE id = ?
+    `,
+    )
+    .get(Id);
   if (!result) {
     return res.status(404).json({
       error: `Task ${Id} not found`,
@@ -129,10 +134,14 @@ export const updateTaskController = (req, res) => {
     title: req.body.title ?? result.title,
     done: req.body.done ?? result.done,
   };
-  const idx = tasks.findIndex((el) => {
-    return el.id === Id;
-  });
-  tasks[idx] = updatedTask;
+  db.prepare(
+    `
+    UPDATE tasks
+    SET title = ?,
+    done = ?
+    WHERE id = ?
+    `,
+  ).run(updatedTask.title, updatedTask.done=== "true" ? 1 : 0, Id);
   res.status(200).json({
     message: "The task is updated successfully",
     data: updatedTask,
@@ -141,17 +150,25 @@ export const updateTaskController = (req, res) => {
 
 export const deleteTaskController = (req, res) => {
   const Id = Number(req.params.id);
-  const result = tasks.find((el) => {
-    return el.id === Id;
-  });
+  const result = db
+    .prepare(
+      `
+    SELECT * FROM tasks
+    WHERE id = ?
+    `,
+    )
+    .get(Id);
   if (!result) {
     return res.status(404).json({
       error: `unkown id ${Id}`,
     });
   }
-  const idx = tasks.findIndex((el) => {
-    return el.id === Id;
-  });
-  tasks.splice(idx, 1);
+  db.prepare(
+    `
+    DELETE
+    FROM tasks
+    WHERE id = ?
+    `,
+  ).run(Id);
   res.status(204).send();
 };
