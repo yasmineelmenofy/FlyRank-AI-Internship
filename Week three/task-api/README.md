@@ -1,4 +1,4 @@
-````markdown
+
 # Task Management REST API (SQLite Version)
 
 A simple RESTful CRUD API built with **Node.js**, **Express.js**, and **SQLite** for managing tasks.
@@ -281,4 +281,4 @@ Some possible future enhancements include:
 - Add authentication and user accounts.
 - Add automated tests.
 - Replace SQLite with PostgreSQL for production deployments.
-````
+
