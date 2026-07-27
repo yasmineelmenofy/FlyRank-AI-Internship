@@ -1,16 +1,19 @@
-# Task API
+````markdown
+# Task Management REST API (SQLite Version)
 
-A simple RESTful CRUD API built with **Node.js** and **Express.js** for managing tasks.
+A simple RESTful CRUD API built with **Node.js**, **Express.js**, and **SQLite** for managing tasks.
 
-This project was created as part of the **FlyRank Backend Internship – Week 2 Assignment A1**.
+This project was created as part of the **FlyRank Backend Internship – Week 3 Assignment**.
 
-The API stores tasks in memory (no database), supports full CRUD operations, includes task filtering and searching features, and is documented using **Swagger UI**.
+The API stores tasks in an **SQLite** database using **better-sqlite3**, supports full CRUD operations, includes task filtering and searching features, and is documented using **Swagger UI**.
+
+Unlike the previous in-memory implementation, task data is now persisted in a local database, so it survives server restarts.
 
 ---
 
-## Features
+# Features
 
-### Core Features
+## Core Features
 
 - Create a task
 - Get all tasks
@@ -19,35 +22,36 @@ The API stores tasks in memory (no database), supports full CRUD operations, inc
 - Delete a task
 - Input validation
 - Proper HTTP status codes
+- Persistent SQLite database
 - Swagger UI documentation
 
-### Extra Features
+## Extra Features
 
-- Filter tasks by completion status
+### Filter tasks by completion status
 
 Example:
 
-```
+```http
 GET /tasks?done=true
 ```
 
 Returns only completed tasks.
 
-- Search tasks by title
+### Search tasks by title
 
 Example:
 
-```
+```http
 GET /tasks?search=milk
 ```
 
 Returns tasks whose title contains the search text.
 
-- Combine filters together
+### Combine filters together
 
 Example:
 
-```
+```http
 GET /tasks?done=false&search=milk
 ```
 
@@ -55,16 +59,32 @@ Returns tasks matching both conditions.
 
 ---
 
-## Technologies Used
+# Technologies Used
 
 - Node.js
 - Express.js
+- SQLite
+- better-sqlite3
 - Swagger UI Express
 - OpenAPI 3.1
 
 ---
 
-## Installation
+# Why SQLite?
+
+SQLite was chosen because it is a lightweight, serverless database that stores all data in a single file.
+
+For this project it provides several advantages:
+
+- No database server installation or configuration.
+- Stores all data in a single `tasks.db` file.
+- Data persists after restarting the server.
+- Fast and easy to use for small backend applications.
+- Perfect for learning SQL and database fundamentals.
+
+---
+
+# Installation
 
 Clone the repository:
 
@@ -84,7 +104,11 @@ Install dependencies:
 npm install
 ```
 
-Start the server:
+---
+
+# Running the Project
+
+Start the development server:
 
 ```bash
 npm run dev
@@ -104,10 +128,26 @@ http://localhost:3000/docs
 
 ---
 
-## API Endpoints
+# Database
+
+The application automatically creates a local SQLite database named:
+
+```
+tasks.db
+```
+
+The database file is created automatically the first time the application runs if it does not already exist.
+
+The database stores all tasks permanently, meaning data survives server restarts.
+
+Typically, `tasks.db` is added to `.gitignore` so each developer starts with a fresh local database after cloning the repository.
+
+---
+
+# API Endpoints
 
 | Method | Endpoint | Description |
-| ------ | -------- | ----------- |
+|---------|----------|-------------|
 | GET | /tasks | Get all tasks |
 | GET | /tasks/:id | Get a task by ID |
 | POST | /tasks | Create a new task |
@@ -118,7 +158,7 @@ http://localhost:3000/docs
 
 ---
 
-## Example curl Request
+# Example cURL Request
 
 ```bash
 curl -i -X POST http://localhost:3000/tasks \
@@ -136,28 +176,32 @@ HTTP/1.1 201 Created
   "data": {
     "id": 4,
     "title": "Buy milk",
-    "done": false
+    "done": 0
   }
 }
 ```
 
 ---
 
-## Filtering and Searching Examples
+# Filtering and Searching Examples
 
-### Filter completed tasks
+## Filter completed tasks
 
 ```bash
 curl -i "http://localhost:3000/tasks?done=true"
 ```
 
-### Search tasks
+---
+
+## Search tasks
 
 ```bash
 curl -i "http://localhost:3000/tasks?search=milk"
 ```
 
-### Apply multiple filters
+---
+
+## Apply multiple filters
 
 ```bash
 curl -i "http://localhost:3000/tasks?done=false&search=milk"
@@ -165,7 +209,7 @@ curl -i "http://localhost:3000/tasks?done=false&search=milk"
 
 ---
 
-## Swagger UI
+# Swagger UI
 
 Swagger documentation is available at:
 
@@ -173,33 +217,68 @@ Swagger documentation is available at:
 http://localhost:3000/docs
 ```
 
-![alt text](<Screenshot 2026-07-16 124234.png>)
+---
 
-Example:
+# Example SQL Query
 
-## ![alt text](<Screenshot 2026-07-16 124248.png>)
+Example query executed in **DB Browser for SQLite** during Stage 4:
 
-## Project Structure
-
+```sql
+SELECT *
+FROM tasks
+WHERE done = 1;
 ```
+
+This query returns all completed tasks stored in the database.
+
+---
+
+## Database Screenshot
+
+The screenshot below shows the SQLite database opened in **DB Browser for SQLite** while executing SQL queries on the `tasks.db` database.
+
+![alt text](image.png)
+
+---
+
+# Project Structure
+
+```text
 .
 ├── controller
-├── Data
 ├── routes
+├── database.js
+├── schema.sql
+├── tasks.db
 ├── app.js
 ├── index.js
 ├── openapi.json
 ├── package.json
-└── README.md
+├── README.md
+└── images
+    └── db-browser.png
 ```
 
 ---
 
-## Notes
+# Notes
 
-- Data is stored **in memory**.
-- Restarting the server resets all tasks.
-- No database is used in this assignment.
-- The search and filtering features are implemented using query parameters.
+- Task data is stored in a local SQLite database (`tasks.db`).
+- The database is created automatically if it does not already exist.
+- Data persists after restarting the server.
+- SQLite queries are executed using **better-sqlite3**.
+- Filtering and searching are implemented using SQL queries and query parameters.
+- API documentation is available through Swagger UI.
 
 ---
+
+# Future Improvements
+
+Some possible future enhancements include:
+
+- Add pagination for large task lists.
+- Add task categories and priorities.
+- Add authentication and user accounts.
+- Add automated tests.
+- Replace SQLite with PostgreSQL for production deployments.
+````
