@@ -45,10 +45,14 @@ export const getAllTaskController = (req, res) => {
 
 export const getTaskByIdController = (req, res) => {
   const Id = Number(req.params.id);
-  const result = db.prepare(`
+  const result = db
+    .prepare(
+      `
     SELECT * FROM tasks
     WHERE id = ?
-    `).get(Id);
+    `,
+    )
+    .get(Id);
   if (!result) {
     return res.status(404).json({
       error: `Task ${Id} not found`,
@@ -61,18 +65,25 @@ export const getTaskByIdController = (req, res) => {
 };
 
 export const createTaskController = (req, res) => {
-  const Id = tasks[tasks.length - 1].id + 1;
   if (!req.body.title) {
     return res.status(400).json({
       error: "The title of the task is missing",
     });
   }
+  const result = db
+    .prepare(
+      `
+    INSERT INTO tasks(title,done)
+    VALUES (?,?)
+    `,
+    )
+    .run(req.body.title, 0);
+
   const newTask = {
-    id: Id,
+    id: result.lastInsertRowid,
     title: req.body.title,
-    done: false,
+    done: 0,
   };
-  tasks.push(newTask);
   res.status(201).json({
     message: "the task created successfully",
     data: newTask,
